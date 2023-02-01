@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FacultyLoginComponent } from './faculty-login.component';
+import {PanelModule} from 'primeng/panel';
 
-import { AppComponent } from './app.component';
-import { FacultyLoginComponent } from 'src/Faculty/faculty-login/faculty-login.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FacultyLoginComponent,
+    PanelModule
   ],
   imports: [
     BrowserModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [FacultyLoginComponent]
 })
 export class AppModule { }
