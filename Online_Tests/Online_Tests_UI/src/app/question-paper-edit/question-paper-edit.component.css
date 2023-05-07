@@ -1,0 +1,15 @@
+:host ::ng-deep .p-card {
+    background-color: rgb(245, 242, 238);
+}
+
+:host ::ng-deep .p-fileupload .p-fileupload-buttonbar {
+    padding: 5px;
+}
+
+table {
+    padding: 2px;
+}
+
+.invalid {
+    color: red;
+}

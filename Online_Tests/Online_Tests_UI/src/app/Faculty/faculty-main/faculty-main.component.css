@@ -1,0 +1,44 @@
+:host ::ng-deep .p-panel-header {
+    padding: 10px;
+}
+
+:host ::ng-deep .p-button {
+    margin-top: 12px;
+}
+
+:host ::ng-deep .p-card {
+    background-color: rgb(245, 242, 238);
+}
+
+.textBoxSize {
+    min-width: 75%;
+}
+
+:host ::ng-deep .p-card {
+    margin-top: 15px;
+}
+
+label {
+    vertical-align: middle;
+}
+
+.col-2 {
+    margin-top: 10px;
+}
+
+.required {
+    color:red;
+    margin: 0;
+}
+
+h4 {
+    margin: 0;
+}
+
+:host ::ng-deep .p-card .p-card-content {
+    padding: 0  ;
+}
+
+:host ::ng-deep .p-multiselect-panel .p-multiselect-header .p-multiselect-filter-container .p-inputtext {
+    width: 200px;
+}

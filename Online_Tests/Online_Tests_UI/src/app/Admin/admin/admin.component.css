@@ -1,0 +1,7 @@
+.col-3 {
+    margin-right: 0px;
+}
+
+:host ::ng-deep .p-card {
+    background-color: rgb(245, 242, 238);
+}
