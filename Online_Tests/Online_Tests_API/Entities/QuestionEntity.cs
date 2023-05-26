@@ -7,7 +7,8 @@ namespace Online_Tests_API.Entities
     public class QuestionEntity
     {
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int QuestionId { get; set; }
         public int QuestionType { get; set; }
         public string Question { get; set; } = string.Empty;
         public int AnswerType { get; set; }
@@ -15,6 +16,9 @@ namespace Online_Tests_API.Entities
         public string CorrectAnswer { get; set; } = string.Empty;
         public int marks { get; set; }
         public int NegativeMarks { get; set; }
+        public int QuestionPaperId { get; set; }
+        [ForeignKey("QuestionPaperId")]
+        public QuestionPaperEntity QuestionPaperEntity { get; set; }
 
     }
 }

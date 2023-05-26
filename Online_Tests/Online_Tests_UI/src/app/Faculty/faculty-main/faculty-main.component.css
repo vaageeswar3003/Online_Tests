@@ -42,3 +42,7 @@ h4 {
 :host ::ng-deep .p-multiselect-panel .p-multiselect-header .p-multiselect-filter-container .p-inputtext {
     width: 200px;
 }
+
+.addBranchAndSections {
+    margin: 0 0 0 auto;
+}

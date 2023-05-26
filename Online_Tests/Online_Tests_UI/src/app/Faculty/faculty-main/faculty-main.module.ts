@@ -13,6 +13,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {CalendarModule} from 'primeng/calendar';
+import { QuestionPaperService } from 'src/app/services/question-paper.service';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {CalendarModule} from 'primeng/calendar';
     ToastModule,
     CalendarModule
   ],
-  providers: [MessageService],
+  providers: [MessageService,
+              QuestionPaperService],
   bootstrap: [FacultyMainComponent]
 })
 export class FacultyMainModule { }

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { map } from 'rxjs';
 import { QuestionPaper } from 'src/Interfaces/QuestionPaper';
+import { QuestionPaperSection } from 'src/Interfaces/QuestionPaperSection';
+import { QuestionPaperService } from 'src/app/services/question-paper.service';
 
 @Component({
   selector: 'app-faculty-main',
@@ -9,50 +12,47 @@ import { QuestionPaper } from 'src/Interfaces/QuestionPaper';
 })
 export class FacultyMainComponent {
 
-  questionPapers: QuestionPaper[] = [{name: 'Java', branch: [1,2], sectionsSelected: [1,2], multipleSections: true, sections: [''],immediateResult:false,bulitInKey:false,isTimeBound:false,testDuration:''}];
+  questionPapers: QuestionPaper[] = [];
+  questionPaper: QuestionPaper = { questionPaperName: '', builtInKey: false, immediateResult: false, institutionId: 0, isTimeBound: false, multipleSections: false, testDuration: '' };
 
-  questionPaper!:QuestionPaper;
-
-  questionPaperName: string = '';
-  branches: { label: string, value: number }[] = [{ label: 'ALL', value: 1 },{ label: 'CSE', value: 2 },{ label: 'ECE', value: 3 }];
-  branchesSelected:number[] = [];
-  sectionsInBranch: { label: string, value: number }[] = [{ label: 'ALL', value: 1 },{ label: 'A', value: 2 },{ label: 'B', value: 3 }];
-  sectionsSelected:number[] = [];
-  testDuration:any = '00:00';
-
+  branches: { label: string, value: number }[] = [{ label: 'ALL', value: 1 }, { label: 'CSE', value: 2 }, { label: 'ECE', value: 3 }];
+  branchesSelected: number[] = [];
+  sectionsInBranch: { label: string, value: number }[] = [{ label: 'ALL', value: 1 }, { label: 'A', value: 2 }, { label: 'B', value: 3 }];
+  sectionsSelected: number[] = [];
 
   multipleSections: { label: string, value: boolean }[] = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
-  isContainsMultipleSections: { label: string, value: boolean } = { label: 'No', value: false };
+  builtInKeyOptions: { label: string, value: boolean }[] = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
+  immediateResultOptions: { label: string, value: boolean }[] = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
+  timeBoundValues: { label: string, value: boolean }[] = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
+
   sectionsInQuestionPaper: { id: number, name: string }[] = [];
   clonedSections: { id: number, name: string }[] = [];
   sectionName: string = '';
   sectionLatestId: number = 0;
 
-  builtInKeyOptions: { label: string, value: boolean }[] = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
-  builtInKey: { label: string, value: boolean } = { label: 'No', value: false };
 
-  immediateResultOptions: { label: string, value: boolean }[] = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
-  immediateResult: { label: string, value: boolean } = { label: 'No', value: false };
 
   questionPaperNameInvalid: boolean = false;
-  sectionNameEmpty:boolean = false;
+  testDurationInvalid: boolean = false;
+  sectionNameEmpty: boolean = false;
+  updateMode: boolean = false;
 
-  testDurationInvalid:boolean = false;
+  tabIndex: number = 0;
 
-  timeBoundValues:{label:string,value:boolean}[] = [{label:'Yes',value:true},{label:'No',value:false}];
-  isTimeBound:boolean = false;
-
-
-  constructor(private messageService:MessageService) { }
+  constructor(private messageService: MessageService, private questionPaperService: QuestionPaperService) {
+    this.questionPaperService.getAllQuestionPapers().subscribe((questionPapers: QuestionPaper[]) => {
+      this.questionPapers = questionPapers;
+    })
+  }
 
   onAddSection() {
-    this.sectionName  = this.sectionName.trim();
-    if(this.sectionName !== '') {
-    this.sectionLatestId += 1;
-    this.sectionsInQuestionPaper.push({ id: this.sectionLatestId, name: this.sectionName });
-    this.clonedSections.push({ id: this.sectionLatestId, name: this.sectionName });
-    this.sectionName = '';
-    this.sectionNameEmpty = false;
+    this.sectionName = this.sectionName.trim();
+    if (this.sectionName !== '') {
+      this.sectionLatestId += 1;
+      this.sectionsInQuestionPaper.push({ id: this.sectionLatestId, name: this.sectionName });
+      this.clonedSections.push({ id: this.sectionLatestId, name: this.sectionName });
+      this.sectionName = '';
+      this.sectionNameEmpty = false;
     } else {
       this.sectionNameEmpty = true;
     }
@@ -72,75 +72,112 @@ export class FacultyMainComponent {
   }
 
   onReset() {
-    this.questionPaperName = '';
-    this.isContainsMultipleSections = { label: 'No', value: false };
-    this.builtInKey = { label: 'No', value: false };
+    this.questionPaper = { questionPaperName: '', builtInKey: false, immediateResult: false, institutionId: 0, isTimeBound: false, multipleSections: false, testDuration: '' };
     this.sectionsInQuestionPaper = [];
     this.clonedSections = [];
     this.sectionName = '';
     this.sectionLatestId = 0;
-    this.immediateResult = { label: 'No', value: false };
     this.questionPaperNameInvalid = false;
     this.sectionNameEmpty = false;
     this.branchesSelected = [];
     this.sectionsSelected = [];
-    this.isTimeBound = false;
     this.testDurationInvalid = false;
-    this.testDuration = '00:00';
+    this.updateMode = false;
+    this.questionPaper.testDuration = '00:00';
   }
 
   onCreate() {
     if (this.validateQuestionPaper()) {
       var questionPaper: QuestionPaper = {
-        name: this.questionPaperName,
-        branch: this.branchesSelected,
-        sectionsSelected: this.sectionsSelected,
-        multipleSections: this.isContainsMultipleSections.value,
-        sections: this.sectionsInQuestionPaper.map((ele) => {
-          return ele.name
-        }),
-        bulitInKey: this.builtInKey.value,
-        immediateResult: this.immediateResult.value,
-        isTimeBound: this.isTimeBound,
-        testDuration: typeof(this.testDuration) === 'string' ? '00:00' : (new Date(this.testDuration).getHours()+":"+new Date(this.testDuration).getMinutes())
+        institutionId: 1,
+        questionPaperName: this.questionPaper.questionPaperName,
+        multipleSections: this.questionPaper.multipleSections,
+        builtInKey: this.questionPaper.builtInKey,
+        immediateResult: this.questionPaper.immediateResult,
+        isTimeBound: this.questionPaper.isTimeBound,
+        testDuration: typeof (this.questionPaper.testDuration) === 'string' ? '00:00' : this.convertTestDurationToString()
       }
-      this.messageService.add({
-        severity: "success",
-        detail: "Question paper created successfully"
-      })
-      this.questionPapers.push(questionPaper);
-      console.log(questionPaper)
-      this.onReset();
+      this.questionPaperService.createQuestionPaper(questionPaper).subscribe((newQuestionPaper: QuestionPaper) => {
+        this.questionPapers = [...this.questionPapers, newQuestionPaper];
+        this.sectionsInQuestionPaper.map((ele) => {
+          var { name: questionPaperSectionName} = ele;
+          this.questionPaperService.createQuestionPaperSection({ questionPaperSectionName, questionPaperId:newQuestionPaper.questionPaperId! }).subscribe();
+        })
+        this.messageService.add({
+          severity: "success",
+          detail: "Question paper created successfully"
+        })
+        this.onReset();
+      });
     }
   }
 
   validateQuestionPaper(): boolean {
-    console.log(new Date(this.testDuration).getHours(),new Date(this.testDuration).getMinutes())
     var isValid: boolean = true;
-    this.questionPaperName = this.questionPaperName.trim();
-    if (this.questionPaperName === '') {
+    this.questionPaper.questionPaperName = this.questionPaper.questionPaperName.trim();
+    if (this.questionPaper.questionPaperName === '') {
       this.questionPaperNameInvalid = true;
       isValid = false;
     } else {
       this.questionPaperNameInvalid = false;
     }
 
-    if(this.isTimeBound) {
-      if(this.testDuration === undefined) {
+    if (this.questionPaper.isTimeBound) {
+      if (this.questionPaper.testDuration === undefined) {
         this.testDurationInvalid = true;
         isValid = false;
       } else {
         this.testDurationInvalid = false;
       }
     } else {
-      this.testDuration = '00:00';
+      this.questionPaper.testDuration = '00:00';
       this.testDurationInvalid = false;
     }
     return isValid;
   }
 
-  onEditPaperSettings(questionPaper:QuestionPaper) {
+  onEditPaperSettings(questionPaper: QuestionPaper) {
     this.questionPaper = questionPaper;
+    this.updateMode = true;
+    this.tabIndex = 1;
+  }
+
+  onUpdate() {
+    if (this.questionPaper.isTimeBound) {
+      this.questionPaper.testDuration = this.convertTestDurationToString();
+    } else {
+      this.questionPaper.testDuration = "00:00";
+    }
+    this.updateMode = false;
+    this.questionPaperService.updateQuestionPaper(this.questionPaper).subscribe((data) => {
+      this.messageService.add({
+        severity: "success",
+        detail: "Question paper Updated successfully"
+      })
+      this.onReset();
+    })
+  }
+
+  onTabIndexChange(event: any) {
+    this.tabIndex = event;
+    if(event === 0) {
+      this.onReset();
+    }
+  }
+
+  onDeleteQuestionPaper(questionPaper: QuestionPaper, rowIndex: number) {
+    return this.questionPaperService.deleteQuestionPaper(questionPaper).subscribe((data) => {
+      this.messageService.add({
+        severity: "success",
+        detail: `Question paper deleted successfully`
+      });
+      this.questionPapers.splice(rowIndex, 1);
+      this.questionPapers = [...this.questionPapers];
+    });
+  }
+
+  convertTestDurationToString(): string {
+    return (new Date(this.questionPaper.testDuration).getHours() + ":" + new Date(this.questionPaper.testDuration).getMinutes());
   }
 
 }

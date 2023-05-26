@@ -134,7 +134,6 @@ export class QuestionPaperEditComponent {
       negativeMarks: this.negativeMarks,
       options: options
     }
-    console.log(question);
   }
 
   convertImageToBase64(file: File): Promise<string> {

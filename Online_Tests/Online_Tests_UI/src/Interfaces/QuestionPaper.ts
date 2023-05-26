@@ -1,11 +1,10 @@
 export interface QuestionPaper {
-    name:string,
-    branch: number[],
-    sectionsSelected: number[],
+    questionPaperId?: number,
+    questionPaperName:string,
     multipleSections: boolean,
-    sections: string[],
-    bulitInKey: boolean,
+    builtInKey: boolean,
     immediateResult: boolean,
     isTimeBound:boolean,
-    testDuration: string
+    testDuration: string,
+    institutionId: number
 }
