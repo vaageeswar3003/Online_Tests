@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { BranchesAndSectionsForExam } from "src/Interfaces/BranchesAndSectionsForExam";
 import { QuestionPaper } from "src/Interfaces/QuestionPaper";
 import { QuestionPaperSection } from "src/Interfaces/QuestionPaperSection";
 import { environment } from "src/environments/environment";
@@ -10,7 +11,7 @@ import { environment } from "src/environments/environment";
 })
 export class QuestionPaperService {
 
-    private readonly apiUrl = environment.apiUrl;
+    private readonly apiUrl = environment.apiUrl+'exam/';
 
     constructor(private http:HttpClient) { }
 
@@ -38,6 +39,10 @@ export class QuestionPaperService {
         return this.http.get<QuestionPaperSection[]>(this.apiUrl+'get-all-question-paper-sections');
     }
 
+    getAllQuestionPaperSectionsByQuestionPaperId(questionPaperId:number) {
+        return this.http.get<QuestionPaperSection[]>(this.apiUrl+'get-all-question-paper-sections-by-question-paper-id?questionPaperId='+questionPaperId);
+    }
+
     createQuestionPaperSection(questionPaperSection:QuestionPaperSection) {
         return this.http.post<QuestionPaperSection>(this.apiUrl+'create-question-paper-section',questionPaperSection);
     }
@@ -50,5 +55,22 @@ export class QuestionPaperService {
         return this.http.delete<QuestionPaperSection>(this.apiUrl+'delete-question-paper-section',{body: questionPaperSection});
     }
     
+    // API Calls for branches and section for exam
+
+    getAllBranchesAndSectionsForExamByQuestionPaperId(questionPaperId:number) {
+        return this.http.get<BranchesAndSectionsForExam[]>(this.apiUrl+'get-all-branches-and-sections-by-question-papaer-id?questionPaperId='+questionPaperId);
+    }
+
+    createBranchAndSectionForExam(branchAndSection:BranchesAndSectionsForExam) {
+        return this.http.post<BranchesAndSectionsForExam>(this.apiUrl+'create-branch-and-section',branchAndSection);
+    }
+
+    updateBranchAndSectionForExam(branchAndSection:BranchesAndSectionsForExam) {
+        return this.http.put<BranchesAndSectionsForExam>(this.apiUrl+'update-branch-and-section',branchAndSection);
+    }
+
+    deleteBranchAndSectionForExam(branchAndSection:BranchesAndSectionsForExam) {
+        return this.http.delete<BranchesAndSectionsForExam>(this.apiUrl+'delete-branch-and-section',{body: branchAndSection});
+    }
 
 }

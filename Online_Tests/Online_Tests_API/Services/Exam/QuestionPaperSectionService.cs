@@ -16,6 +16,11 @@ namespace Online_Tests_API.Services.Exam
             return await _repository.GetAllQuestionPaperSectionsAsync();
         }
 
+        public async Task<IEnumerable<QuestionPaperSectionEntity>> GetQuestionPaperSectionsByQuestionPaperId(int questionPaperId)
+        {
+            return await _repository.GetQuestionPaperSectionsByQuestionPaperIdAsync(questionPaperId);
+        }
+
         public async Task<QuestionPaperSectionEntity> CreateQuestionPaperSection(QuestionPaperSectionEntity questionPaperSection)
         {
             return await _repository.CreateQuestionPaperSectionAsync(questionPaperSection);

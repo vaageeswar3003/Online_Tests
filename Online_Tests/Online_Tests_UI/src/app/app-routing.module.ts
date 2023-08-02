@@ -17,7 +17,7 @@ const routes: Routes = [
             }
         ]
     }, {
-        path: 'questionPaperEdit',
+        path: 'questionPaperEdit/:id',
         loadChildren: () => import('./question-paper-edit/question-paper-edit.module').then(module => module.QuestionPaperEditModule)
     }, {
         path: 'admin',

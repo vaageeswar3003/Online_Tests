@@ -13,5 +13,6 @@ namespace Online_Tests_API.Data.EntityRepository
         public DbSet<BranchesAndSectionsForTestEntity> BranchesAndSectionsForTest { get; set; }
         public DbSet<QuestionPaperSectionEntity> QuestionPaperSection { get; set; }
         public DbSet<BranchesEntity> BranchesEntity { get; set; }
+        public DbSet<SectionsEntity> SectionsEntity { get; set; }
     }
 }

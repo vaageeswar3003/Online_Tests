@@ -6,7 +6,7 @@ namespace Online_Tests_API.Services.Exam
     {
         Task<BranchesAndSectionsForTestEntity> CreateBranchAndSection(BranchesAndSectionsForTestEntity branchAndSection);
         Task<BranchesAndSectionsForTestEntity> DeleteBranchAndSection(BranchesAndSectionsForTestEntity branchAndSection);
-        Task<IEnumerable<BranchesAndSectionsForTestEntity>> GetAllBranchesAndSections();
+        Task<IEnumerable<BranchesAndSectionsForTestEntity>> GetAllBranchesAndSectionsByQuestionPaperId(int questionPaperId);
         Task<BranchesAndSectionsForTestEntity> UpdateBranchAndSection(BranchesAndSectionsForTestEntity branchAndSection);
     }
 }

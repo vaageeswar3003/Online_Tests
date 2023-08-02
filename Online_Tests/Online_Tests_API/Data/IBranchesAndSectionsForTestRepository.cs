@@ -6,7 +6,7 @@ namespace Online_Tests_API.Data
     {
         Task<BranchesAndSectionsForTestEntity> CreateBrancheAndSectionAsync(BranchesAndSectionsForTestEntity branchAndSection);
         Task<BranchesAndSectionsForTestEntity> DeleteBrancheAndSectionAsync(BranchesAndSectionsForTestEntity branchAndSection);
-        Task<IEnumerable<BranchesAndSectionsForTestEntity>> GetAllBranchesAndSectionsAsync();
+        Task<IEnumerable<BranchesAndSectionsForTestEntity>> GetAllBranchesAndSectionsByQuestionPaperIdAsync(int questionPaperId);
         Task<BranchesAndSectionsForTestEntity> UpdateBrancheAndSectionAsync(BranchesAndSectionsForTestEntity branchAndSection);
     }
 }

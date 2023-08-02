@@ -1,5 +1,6 @@
 export interface Question {
     questionType: number,
+    sectionId: number,
     question: string,
     answerType: number,
     negativeMarking: boolean,

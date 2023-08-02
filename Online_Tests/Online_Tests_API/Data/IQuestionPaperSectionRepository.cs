@@ -7,6 +7,7 @@ namespace Online_Tests_API.Data
         Task<QuestionPaperSectionEntity> CreateQuestionPaperSectionAsync(QuestionPaperSectionEntity questionPaperSection);
         Task<QuestionPaperSectionEntity> DeleteQuestionPaperSectionAsync(QuestionPaperSectionEntity questionPaperSection);
         Task<IEnumerable<QuestionPaperSectionEntity>> GetAllQuestionPaperSectionsAsync();
+        Task<IEnumerable<QuestionPaperSectionEntity>> GetQuestionPaperSectionsByQuestionPaperIdAsync(int questionPaperId);
         Task<QuestionPaperSectionEntity> UpdateQuestionPaperSectionAsync(QuestionPaperSectionEntity questionPaperSection);
     }
 }

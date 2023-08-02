@@ -10,7 +10,7 @@
                     <button pButton type="button" label="Edit Paper Settings"
                         class="p-button-outlined vertical-align-middle" icon="pi pi-cog"
                         (click)="onEditPaperSettings(paper)"></button>
-                    <button pButton routerLink="/questionPaperEdit" type="button" label="View Questions"
+                    <button pButton routerLink="/questionPaperEdit/{{paper.questionPaperId}}" type="button" label="View Questions"
                         class="p-button-outlined vertical-align-middle ml-2" icon="pi pi-eye"></button>
                     <button pButton type="button" label="Delete"
                         class="p-button-outlined p-button-danger vertical-align-middle ml-2" icon="pi pi-trash"
@@ -62,24 +62,6 @@
                     <p *ngIf="testDurationInvalid" class="required">This field is required</p>
                 </div>
             </div>
-            <!-- <div class="grid">
-                <div class="col-2">
-                    <label for="firstname2">Branch</label>
-                </div>
-                <div class="col">
-                    <p-multiSelect [options]="branches" [(ngModel)]="branchesSelected" optionLabel="label"
-                        optionValue="value"></p-multiSelect>
-                </div>
-            </div>
-            <div class="grid">
-                <div class="col-2">
-                    <label for="firstname2">Section</label>
-                </div>
-                <div class="col">
-                    <p-multiSelect [options]="sectionsInBranch" [(ngModel)]="sectionsSelected" optionLabel="label"
-                        optionValue="value"></p-multiSelect>
-                </div>
-            </div> -->
             <div class="grid">
                 <div class="col-2">
                     <label>Multiple Sections</label>
@@ -115,17 +97,19 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data let-ri="rowIndex" let-editing="editing">
                                     <tr [pEditableRow]="data">
-                                        <td>
+                                        <td style="max-width:50px">
                                             <p-cellEditor>
                                                 <ng-template pTemplate="input">
-                                                    <input pInputText type="text" [(ngModel)]="data.name">
+                                                    <input pInputText type="text"
+                                                        [(ngModel)]="data.questionPaperSectionName">
                                                 </ng-template>
                                                 <ng-template pTemplate="output">
-                                                    {{data.name}}
+                                                    {{data.questionPaperSectionName}}
                                                 </ng-template>
                                             </p-cellEditor>
                                         </td>
-                                        <td><button *ngIf="!editing" pButton icon="pi pi-pencil" class="p-button-text"
+                                        <td tyle="max-width:10px">
+                                            <button *ngIf="!editing" pButton icon="pi pi-pencil" class="p-button-text"
                                                 pInitEditableRow></button>
                                             <button *ngIf="editing" pButton pRipple type="button" icon="pi pi-check"
                                                 (click)="onEditSave(ri)" pSaveEditableRow
@@ -134,7 +118,7 @@
                                                 icon="pi pi-times" (click)="onEditCancel(ri)"
                                                 class="p-button-rounded p-button-text p-button-danger"></button>
                                         </td>
-                                        <td><button pButton icon="pi pi-trash" (click)="onDeleteSection(ri)"
+                                        <td tyle="max-width:10px"><button pButton icon="pi pi-trash" (click)="onDeleteSection(ri)"
                                                 class="p-button-text p-button-danger"></button></td>
                                     </tr>
                                 </ng-template>
@@ -163,26 +147,37 @@
             </div>
             <br>
             <div class="grid">
-                <p-table class="w-full">
+                <p-table [value]="branchesAndSectionsForExam" class="w-full" styleClass="p-datatable-gridlines">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>
-                                    <label for="firstname2">Branch</label>&nbsp;
-                                    <p-dropdown [options]="branches" [(ngModel)]="branchesSelected"
-                                        optionLabel="label" optionValue="value" [appendTo]="'body'" ></p-dropdown>
+                                <label for="firstname2">Branch</label>&nbsp;
+                                <p-dropdown [options]="branches" [(ngModel)]="branchSelected"
+                                    (onChange)="onBranchSelected()" optionLabel="branchName" optionValue="branchId"
+                                    [appendTo]="'body'"></p-dropdown>
                             </th>
                             <th>
                                 <label for="firstname2">Section</label>&nbsp;
-                                <p-multiSelect [options]="sectionsInBranch" [(ngModel)]="sectionsSelected"
-                                    optionLabel="label" optionValue="value" [appendTo]="'body'" emptyMessage="Select a branch"></p-multiSelect>
+                                <p-multiSelect [options]="sectionsInBranch" [(ngModel)]="sectionsSelectedInBranch"
+                                    optionLabel="sectionName" optionValue="sectionId" [appendTo]="'body'"
+                                    emptyMessage="Select a branch"></p-multiSelect>
                             </th>
                             <th>
-                                <button pButton label="Add" icon="pi pi-plus" class="addBranchAndSections"></button>
+                                <button pButton label="Add" icon="pi pi-plus" class="addBranchAndSections" [disabled]="sectionsSelectedInBranch.length === 0"
+                                    (click)="onAddBranchAndSection()"></button>
                             </th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body">
-
+                    <ng-template pTemplate="body" let-data let-ri="rowIndex">
+                        <tr>
+                        <td><p-chip [label]="getBranchName(data.branch)!"></p-chip></td>
+                        <td>
+                            <ng-container *ngFor="let info of data.info">
+                                <p-chip [label]="getSectionName(info.section)!"></p-chip>&nbsp;
+                            </ng-container>
+                        </td>
+                        <td><button pButton class="p-button-text" icon="pi pi-trash" (click)="onDeleteBranchAndSections(ri)"></button></td>
+                    </tr>
                     </ng-template>
                 </p-table>
             </div>

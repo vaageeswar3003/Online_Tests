@@ -3,6 +3,7 @@
     public class QuestionModel
     {
         public int Id { get; set; }
+        public int SectionId { get; set; }
         public int QuestionType { get; set; }
         public string Question { get; set; } = string.Empty;
         public int AnswerType { get; set; }

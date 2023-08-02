@@ -89,7 +89,8 @@ namespace Online_Tests_API.Data.EntityRepository
             {
                 try
                 {
-                    _dbContext.Entry(entity).State = EntityState.Deleted;
+                    _dbContext.Remove(entity);
+                    /*_dbContext.Entry(entity).State = EntityState.Deleted;*/
                     await _dbContext.SaveChangesAsync();
                     return entity;
                 }

@@ -9,6 +9,7 @@ namespace Online_Tests_API.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int QuestionId { get; set; }
+        public int SectionId { get; set; }
         public int QuestionType { get; set; }
         public string Question { get; set; } = string.Empty;
         public int AnswerType { get; set; }

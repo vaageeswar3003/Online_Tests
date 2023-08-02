@@ -8,9 +8,9 @@ namespace Online_Tests_API.Entities
     {
         [Key]
         public int Id { get; set; }
-        public int brandId { get; set; }
-        public int sectionId { get; set; }
-        public int questionPaperId { get; set; }
+        public int BranchId { get; set; }
+        public int SectionId { get; set; }
+        public int QuestionPaperId { get; set; }
         [ForeignKey("QuestionPaperId")]
         public QuestionPaperEntity QuestionPaperEntity { get; set; }
     }

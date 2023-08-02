@@ -14,7 +14,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {CalendarModule} from 'primeng/calendar';
 import { QuestionPaperService } from 'src/app/services/question-paper.service';
-
+import { ChipModule } from 'primeng/chip';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { QuestionPaperService } from 'src/app/services/question-paper.service';
     TableModule,
     MultiSelectModule,
     ToastModule,
-    CalendarModule
+    CalendarModule,
+    ChipModule
   ],
   providers: [MessageService,
               QuestionPaperService],

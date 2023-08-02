@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
 import { Question } from '../../Interfaces/Question'
 import { MessageService } from 'primeng/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-question-paper-edit',
@@ -45,7 +46,9 @@ export class QuestionPaperEditComponent {
 
   @ViewChild('imageSelector') imageSelector !: FileUpload
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private route: ActivatedRoute) {
+    console.log(route.snapshot.params['id']);
+  }
 
   onOptionAdd() {
     if (this.emptyOptions) {
@@ -126,6 +129,7 @@ export class QuestionPaperEditComponent {
   createQuestion(questionData: string, options: string[]) {
     var question: Question = {
       questionType: this.questionType.value,
+      sectionId: -1,
       question: questionData,
       answerType: this.answerType.value,
       negativeMarking: this.isNegativeMarking.value,

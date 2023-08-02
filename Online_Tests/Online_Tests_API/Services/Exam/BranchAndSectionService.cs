@@ -12,9 +12,9 @@ namespace Online_Tests_API.Services.Exam
             _repository = repository;
         }
 
-        public async Task<IEnumerable<BranchesAndSectionsForTestEntity>> GetAllBranchesAndSections()
+        public async Task<IEnumerable<BranchesAndSectionsForTestEntity>> GetAllBranchesAndSectionsByQuestionPaperId(int questionPaperId)
         {
-            return await _repository.GetAllBranchesAndSectionsAsync();
+            return await _repository.GetAllBranchesAndSectionsByQuestionPaperIdAsync(questionPaperId);
         }
 
         public async Task<BranchesAndSectionsForTestEntity> CreateBranchAndSection(BranchesAndSectionsForTestEntity branchAndSection)

@@ -4,7 +4,7 @@ using Online_Tests_API.Services.Exam;
 
 namespace Online_Tests_API.Controllers
 {
-    [Route("online-examination/")]
+    [Route("online-examination/exam")]
     public class ExamController: ControllerBase
     {
 
@@ -208,12 +208,12 @@ namespace Online_Tests_API.Controllers
         // Branches And Sections Endpoints
 
         [HttpGet]
-        [Route("get-all-question-paper-section")]
-        public async Task<IActionResult> GetAllBranchesAndSections()
+        [Route("get-all-branches-and-sections-by-question-papaer-id")]
+        public async Task<IActionResult> GetAllBranchesAndSectionsByQuestionPaperId(int questionPaperId)
         {
             try
             {
-                var questionPapers = await _branchesAndSectionService.GetAllBranchesAndSections();
+                var questionPapers = await _branchesAndSectionService.GetAllBranchesAndSectionsByQuestionPaperId(questionPaperId);
                 return Ok(questionPapers);
             }
             catch (Exception ex)
@@ -276,6 +276,21 @@ namespace Online_Tests_API.Controllers
             try
             {
                 var questionPapers = await _questionPaperSectionService.GetAllQuestionPaperSections();
+                return Ok(questionPapers);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-all-question-paper-sections-by-question-paper-id")]
+        public async Task<IActionResult> GetQuestionPaperSectionsByQuestionPaperId(int questionPaperId)
+        {
+            try
+            {
+                var questionPapers = await _questionPaperSectionService.GetQuestionPaperSectionsByQuestionPaperId(questionPaperId);
                 return Ok(questionPapers);
             }
             catch (Exception ex)

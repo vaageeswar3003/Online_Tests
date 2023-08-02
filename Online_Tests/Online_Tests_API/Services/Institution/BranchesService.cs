@@ -3,7 +3,7 @@ using Online_Tests_API.Entities;
 
 namespace Online_Tests_API.Services.Institution
 {
-    public class BranchesService
+    public class BranchesService : IBranchesService
     {
         private IBranchesRepository _repository;
 
